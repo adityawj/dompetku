@@ -23,6 +23,74 @@
             background: rgba(255,255,255,0.1); 
             border-left-color: #3b82f6;
         }
+
+        /* Bottom Footer Nav */
+        .bottom-nav {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+        .bottom-nav-item {
+            transition: all 0.25s ease;
+            position: relative;
+        }
+        .bottom-nav-item svg {
+            transition: all 0.25s ease;
+        }
+        .bottom-nav-item span {
+            transition: all 0.25s ease;
+        }
+        .bottom-nav-item.active svg {
+            color: #3b82f6;
+        }
+        .bottom-nav-item.active span {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        .bottom-nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 40px;
+            height: 3px;
+            background: #3b82f6;
+            border-radius: 0 0 4px 4px;
+            transition: transform 0.25s ease;
+        }
+        .bottom-nav-item.active::before {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* FAB Button */
+        .fab-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 4px 15px rgba(59,130,246,0.4), 0 2px 6px rgba(59,130,246,0.3);
+            transition: all 0.3s ease;
+        }
+        .fab-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(59,130,246,0.5), 0 4px 10px rgba(59,130,246,0.3);
+        }
+        .fab-button:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        .fab-button::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            opacity: 0.2;
+            z-index: -1;
+            filter: blur(8px);
+        }
+
+        /* Main content padding for bottom nav */
+        .main-content {
+            padding-bottom: 90px;
+        }
         
         .card { 
             background: white; 
@@ -113,8 +181,8 @@
 </head>
 <body class="min-h-screen">
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar fixed left-0 top-0 w-[280px] h-screen text-white flex flex-col">
+    <!-- Sidebar (Desktop only, minimal) -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 w-[280px] h-screen text-white hidden md:flex flex-col">
         <div class="p-6 border-b border-slate-700">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
@@ -156,10 +224,8 @@
         </div>
     </aside>
 
-    <!-- Mobile Menu Button -->
-    <button onclick="toggleSidebar()" class="md:hidden fixed top-4 left-4 z-50 bg-slate-800 text-white p-2 rounded-lg">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
+    <!-- Mobile Menu Button (for sidebar on desktop is removed, this is now for extra) -->
+    <div class="md:hidden"></div>
 
     <!-- Main Content -->
     <main class="md:ml-[280px] min-h-screen">
@@ -170,16 +236,10 @@
                     <h2 id="page-title" class="text-xl font-bold text-slate-800">Dashboard</h2>
                     <p id="current-date" class="text-sm text-slate-500"></p>
                 </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="openAddTransactionModal()" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        Tambah Transaksi
-                    </button>
-                </div>
             </div>
         </header>
 
-        <div class="p-6">
+        <div class="p-6 main-content">
 
             <!-- DASHBOARD PAGE -->
             <section id="page-dashboard" class="page-section active fade-in">
@@ -282,10 +342,6 @@
                         <h3 class="text-lg font-semibold text-slate-800">Pengaturan Anggaran Bulanan</h3>
                         <p class="text-sm text-slate-500">Tetapkan batas pengeluaran untuk setiap kategori</p>
                     </div>
-                    <button onclick="openBudgetModal()" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        Tambah Anggaran
-                    </button>
                 </div>
 
                 <!-- Notifications Area -->
@@ -305,10 +361,6 @@
                         <h3 class="text-lg font-semibold text-slate-800">Kategori Pengeluaran</h3>
                         <p class="text-sm text-slate-500">Kelola kategori untuk mengelompokkan transaksi Anda</p>
                     </div>
-                    <button onclick="openCategoryModal()" class="btn-primary text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        Tambah Kategori
-                    </button>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="categories-list">
@@ -316,6 +368,39 @@
             </section>
         </div>
     </main>
+
+    <!-- Bottom Navigation Footer -->
+    <footer class="bottom-nav fixed bottom-0 left-0 right-0 md:left-[280px] z-40">
+        <div class="flex items-end justify-around px-2 pt-2 pb-safe">
+            <!-- Dashboard -->
+            <a onclick="showPage('dashboard')" id="bottom-nav-dashboard" class="bottom-nav-item active flex flex-col items-center justify-center py-2 px-3 cursor-pointer w-full">
+                <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                <span class="text-xs text-slate-400">Dashboard</span>
+            </a>
+            <!-- Transactions -->
+            <a onclick="showPage('transactions')" id="bottom-nav-transactions" class="bottom-nav-item flex flex-col items-center justify-center py-2 px-3 cursor-pointer w-full">
+                <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                <span class="text-xs text-slate-400">Transaksi</span>
+            </a>
+            <!-- FAB Add Button -->
+            <div class="relative -mt-8 flex-shrink-0">
+                <button onclick="openAddTransactionModal()" class="fab-button relative w-14 h-14 rounded-full flex items-center justify-center text-white">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                </button>
+                <span class="block text-center text-[10px] text-slate-500 mt-1 font-medium">Tambah</span>
+            </div>
+            <!-- Budgets -->
+            <a onclick="showPage('budgets')" id="bottom-nav-budgets" class="bottom-nav-item flex flex-col items-center justify-center py-2 px-3 cursor-pointer w-full">
+                <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <span class="text-xs text-slate-400">Anggaran</span>
+            </a>
+            <!-- Categories -->
+            <a onclick="showPage('categories')" id="bottom-nav-categories" class="bottom-nav-item flex flex-col items-center justify-center py-2 px-3 cursor-pointer w-full">
+                <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                <span class="text-xs text-slate-400">Kategori</span>
+            </a>
+        </div>
+    </footer>
 
     <!-- Add/Edit Transaction Modal -->
     <div id="transaction-modal" class="fixed inset-0 modal-overlay z-40 hidden flex items-center justify-center p-4">
@@ -511,8 +596,17 @@
         function showPage(page) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('page-' + page).classList.add('active');
-            document.getElementById('nav-' + page).classList.add('active');
+            
+            // Sidebar nav (desktop)
+            const sidebarNav = document.getElementById('nav-' + page);
+            if (sidebarNav) sidebarNav.classList.add('active');
+            
+            // Bottom nav (all screens)
+            const bottomNav = document.getElementById('bottom-nav-' + page);
+            if (bottomNav) bottomNav.classList.add('active');
+            
             document.getElementById('page-title').textContent = {
                 dashboard: 'Dashboard',
                 transactions: 'Transaksi',
@@ -520,15 +614,7 @@
                 categories: 'Kategori'
             }[page];
             
-            if (window.innerWidth < 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-            
             renderAll();
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
         }
 
         // ============ RENDER ALL ============
